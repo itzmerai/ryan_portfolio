@@ -76,7 +76,26 @@ export default function About() {
   const loadJourney = async () => {
     try {
       const res = await databases.listDocuments(DB_ID, 'journey');
-      setJourney(res.documents);
+      const parseNumericId = (doc: any) => {
+        const rawId = doc?.id ?? doc?.$id;
+        const numericId = Number(rawId);
+        return Number.isFinite(numericId) ? numericId : null;
+      };
+
+      const sortedJourney = [...res.documents].sort((a, b) => {
+        const aId = parseNumericId(a);
+        const bId = parseNumericId(b);
+
+        if (aId !== null && bId !== null) {
+          return bId - aId; // newest (highest id) first
+        }
+
+        const aCreated = new Date(a?.$createdAt ?? 0).getTime();
+        const bCreated = new Date(b?.$createdAt ?? 0).getTime();
+        return bCreated - aCreated;
+      });
+
+      setJourney(sortedJourney);
     } catch (error) {
       console.error('Failed to load journey:', error);
     }
