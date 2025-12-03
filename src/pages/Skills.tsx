@@ -21,9 +21,9 @@ const categoryTitles: Record<string, string> = {
   'Back_end': 'Backend Development',
   'Tools': 'Tools & Technologies',
   'Database': 'Database Technologies',
-  'Crm': 'CRM Systems',
+  'Crm': 'Project Management Tools',
   'Automation': 'Automation',
-  'language': 'Language',
+  'language': 'Languages',
 };
 
 export default function Skills() {
